@@ -1,26 +1,45 @@
+"use client"
 import MapComponent from '@/components/Map';
-import React from 'react';
+import { MapContext } from '@/components/context/MapProvider';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useEffect, useState } from 'react';
 
 const LandsPage = () => {
+    const { viewPort, setViewPort, newPlace, setNewPlace, country } = useContext(MapContext);
+    const router = useRouter();
+    const [address, setAddress] = useState<string>('');
+
+    useEffect(() => {
+        if (!country) {
+            router.push('/');
+        }
+    }, [country])
+    
     return (
         <div className=''>
             <div className='container mx-auto pt-10'>
-                <p>首页 United Arab Emirates</p>
+                <p>首页 {country}</p>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-5 py-4'>
                     <div className='w-full relative rounded-lg'>
-                        <MapComponent />
+                        <MapComponent
+                            viewPort={viewPort}
+                            setViewPort={setViewPort}
+                            newPlace={newPlace}
+                            setNewPlace={setNewPlace}
+                            setAddress={setAddress}
+                        />
                     </div>
                     <div className='w-full relative pt-5'>
-                        <h1 className='text-3xl font-semibold'>United Arab Emirates</h1>
+                        <h1 className='text-3xl font-semibold'>{country}</h1>
                         <div className='mt-5 p-6 bg-[#F7F7F7] rounded-xl'>
                             <div className='grid grid-cols-2 py-5'>
                                 <div>
                                     <p className='opacity-40'>地址</p>
-                                    <p>地址</p>
+                                    <p>{address ? address.text : 'Address not found'}</p>
                                 </div>
                                 <div>
                                     <p className='opacity-40'>哈希值</p>
-                                    <p>8c39613450411ff</p>
+                                    <p>{address ? address.id.split('.')[1] : 'Id not found'}</p>
                                 </div>
                             </div>
                             <hr />

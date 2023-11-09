@@ -1,36 +1,32 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GeolocateControl, Map, Marker, NavigationControl } from 'react-map-gl';
 import { MapPinIcon } from '@heroicons/react/24/solid';
+import { MapContext } from '@/components/context/MapProvider';
+import { useRouter } from 'next/navigation';
 
 const HomePage = () => {
-  const [viewPort, setViewPort] = useState({
-    latitude: 24.42677647459365,
-    longitude: 44.60008244598015,
-    zoom: 9
-  });
-  const [newPlace, setNewPlace] = useState({
-    lat: viewPort.latitude,
-    long: viewPort.longitude
-  });
+  const router = useRouter();
+  const { viewPort, setViewPort, newPlace, setNewPlace, setCountry, country } = useContext(MapContext);
   const Token = 'pk.eyJ1IjoiaGFuZ2dpIiwiYSI6ImNsb3BoZ2pwZjA4Z2Iyam83NzhiOTR1c2wifQ.44mLv--JS8miDmE-XP8d6g';
 
   useEffect(() => {
-    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${newPlace?.lat},${newPlace?.long}.json?types=country&access_token=${Token}`)
+    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${newPlace?.latitude},${newPlace?.longitude}.json?types=country&access_token=${Token}`)
       .then(res => res.json())
-      .then(data => console.log(data.features[0].place_name))
+      .then(data => setCountry(data?.features[0]?.place_name))
   }, [viewPort, newPlace])
 
   const handleClick = (e: any) => {
     const longitude = e.lngLat.lng;
     const latitude = e.lngLat.lat;
-    console.log(e);
     setNewPlace({
-      lat: latitude,
-      long: longitude
-    })
+      latitude: latitude,
+      longitude: longitude
+    });
+    if (country) {
+      router.push('/lands');
+    }
   }
-  console.log(newPlace);
 
   return (
     <div className='relative'>
@@ -46,8 +42,8 @@ const HomePage = () => {
           newPlace ?
             <>
               <Marker
-                longitude={`${newPlace?.long}`}
-                latitude={`${newPlace?.lat}`}
+                longitude={`${newPlace?.longitude}`}
+                latitude={`${newPlace?.latitude}`}
                 anchor="bottom"
                 draggable={true}
                 onDragEnd={handleClick}
