@@ -1,33 +1,37 @@
 "use client"
 import MapComponent from '@/components/Map';
+import HexagonMap from '@/components/HeaxagonMap';
 import { MapContext } from '@/components/context/MapProvider';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 
-const LandsPage = () => {
-    const { viewPort, setViewPort, newPlace, setNewPlace, country } = useContext(MapContext);
-    const router = useRouter();
-    const [address, setAddress] = useState<string>('');
+type addressState = {
+    [key: string]: any
+}
 
-    useEffect(() => {
-        if (!country) {
-            router.push('/');
-        }
-    }, [country])
-    
+const LandsPage = () => {
+    const { newPlace, setNewPlace, country } = useContext(MapContext);
+    const router = useRouter();
+    const [address, setAddress] = useState<addressState>({});
+
+    // useEffect(() => {
+    //     if (!country) {
+    //         router.push('/');
+    //     }
+    // }, [country])
+
     return (
         <div className=''>
             <div className='container mx-auto pt-10'>
                 <p>首页 {country}</p>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-5 py-4'>
                     <div className='w-full relative rounded-lg'>
-                        <MapComponent
-                            viewPort={viewPort}
-                            setViewPort={setViewPort}
+                        {/* <MapComponent
                             newPlace={newPlace}
                             setNewPlace={setNewPlace}
                             setAddress={setAddress}
-                        />
+                        /> */}
+                        <HexagonMap />
                     </div>
                     <div className='w-full relative pt-5'>
                         <h1 className='text-3xl font-semibold'>{country}</h1>
@@ -39,7 +43,7 @@ const LandsPage = () => {
                                 </div>
                                 <div>
                                     <p className='opacity-40'>哈希值</p>
-                                    <p>{address ? address.id.split('.')[1] : 'Id not found'}</p>
+                                    <p>{address ? address?.id?.split('.')[1] : 'Id not found'}</p>
                                 </div>
                             </div>
                             <hr />

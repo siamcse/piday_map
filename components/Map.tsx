@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { GeolocateControl, Map, Marker, NavigationControl } from 'react-map-gl';
 import { MapPinIcon } from '@heroicons/react/24/solid'
 
-const MapComponent = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress }) => {
+const MapComponent = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress }:any) => {
 
     const Token = 'pk.eyJ1IjoiaGFuZ2dpIiwiYSI6ImNsb3BoZ2pwZjA4Z2Iyam83NzhiOTR1c2wifQ.44mLv--JS8miDmE-XP8d6g';
 
@@ -34,14 +34,13 @@ const MapComponent = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 onDblClick={handleClick}
                 doubleClickZoom={false}
-                zoom={7}
             >
                 {
                     newPlace &&
                     <>
                         <Marker
-                            longitude={`${newPlace?.longitude}`}
-                            latitude={`${newPlace?.latitude}`}
+                            longitude={newPlace?.longitude}
+                            latitude={newPlace?.latitude}
                             anchor="bottom"
                             draggable={true}
                             onDragEnd={handleClick}

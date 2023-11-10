@@ -42,8 +42,8 @@ const HomePage = () => {
           newPlace ?
             <>
               <Marker
-                longitude={`${newPlace?.longitude}`}
-                latitude={`${newPlace?.latitude}`}
+                longitude={newPlace?.longitude}
+                latitude={newPlace?.latitude}
                 anchor="bottom"
                 draggable={true}
                 onDragEnd={handleClick}
@@ -54,8 +54,8 @@ const HomePage = () => {
             :
             <>
               <Marker
-                longitude={`${viewPort?.longitude}`}
-                latitude={`${viewPort.latitude}`}
+                longitude={viewPort?.longitude}
+                latitude={viewPort.latitude}
                 anchor="bottom"
               >
                 <MapPinIcon className='w-10 h-10 text-blue-600' />
