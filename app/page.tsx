@@ -21,7 +21,12 @@ const HomePage = () => {
     const latitude = e.lngLat.lat;
     setNewPlace({
       latitude: latitude,
-      longitude: longitude
+      longitude: longitude,
+      width: 800,
+      height: 800,
+      zoom: 13,
+      pitch: 0,
+      bearing: 0
     });
     if (country) {
       router.push('/lands');

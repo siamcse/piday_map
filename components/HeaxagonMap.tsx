@@ -30,18 +30,17 @@ const data = [
     }
 ];
 
-const HexagonMap = () => {
-    const [viewport, setViewPort] = useState(INITIAL_VIEW_PORT);
+const HexagonMap = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress }: any) => {
+    // const [viewport, setViewPort] = useState(INITIAL_VIEW_PORT);
 
-    console.log("viewport", viewport);
-    const boundingBox = bboxFromViewport(viewport.viewState);
+    console.log("viewport", newPlace);
+    const boundingBox = bboxFromViewport(newPlace);
     const h3Indices = getH3IndicesForBB(boundingBox);
-    // console.log("h3Indices", h3Indices);
+    console.log("h3Indices", h3Indices);
 
     const data = h3Indices.map((h3): any => ({
         hex: h3
     }));
-    console.log(data);
 
     const layers = [
         new H3HexagonLayer({
@@ -59,14 +58,13 @@ const HexagonMap = () => {
     return (
         <div className="App">
             <DeckGL
-                initialViewState={viewport.viewState}
-
+                initialViewState={newPlace}
                 controller={true}
                 layers={layers}
             >
                 <Map
                     mapboxAccessToken={TOKEN}
-                    initialViewState={viewport.viewState}
+                    initialViewState={newPlace}
                     style={{ width: '100%', height: '545px', borderRadius: '10px' }}
                     mapStyle="mapbox://styles/mapbox/streets-v9"
                     // onDblClick={handleClick}

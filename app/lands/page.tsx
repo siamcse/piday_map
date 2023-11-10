@@ -1,5 +1,4 @@
 "use client"
-import MapComponent from '@/components/Map';
 import HexagonMap from '@/components/HeaxagonMap';
 import { MapContext } from '@/components/context/MapProvider';
 import { useRouter } from 'next/navigation';
@@ -10,7 +9,7 @@ type addressState = {
 }
 
 const LandsPage = () => {
-    const { newPlace, setNewPlace, country } = useContext(MapContext);
+    const {viewPort, newPlace, setNewPlace, country } = useContext(MapContext);
     const router = useRouter();
     const [address, setAddress] = useState<addressState>({});
 
@@ -31,7 +30,13 @@ const LandsPage = () => {
                             setNewPlace={setNewPlace}
                             setAddress={setAddress}
                         /> */}
-                        <HexagonMap />
+                        <HexagonMap 
+                        viewPort={viewPort}
+                            newPlace={newPlace}
+                            setNewPlace={setNewPlace}
+                            setAddress={setAddress}
+                        
+                        />
                     </div>
                     <div className='w-full relative pt-5'>
                         <h1 className='text-3xl font-semibold'>{country}</h1>
