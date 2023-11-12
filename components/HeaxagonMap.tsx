@@ -1,9 +1,7 @@
 import DeckGL from "@deck.gl/react/typed";
-import ReactMapGL, { GeolocateControl, Map, NavigationControl } from "react-map-gl";
+import { GeolocateControl, Map, NavigationControl } from "react-map-gl";
 import { H3HexagonLayer } from "@deck.gl/geo-layers/typed";
-
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useState } from "react";
 import { bboxFromViewport, getH3IndicesForBB } from "./utils/Utilities";
 
 const TOKEN =
@@ -30,7 +28,7 @@ const data = [
     }
 ];
 
-const HexagonMap = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress }: any) => {
+const HexagonMap = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress, setHexId }: any) => {
     // const [viewport, setViewPort] = useState(INITIAL_VIEW_PORT);
 
     console.log("viewport", newPlace);
@@ -48,16 +46,19 @@ const HexagonMap = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress }
             data,
             pickable: true,
             wireframe: true,
-            filled: false,
-            extruded: true,
+            filled: true,
+            extruded: false,
             elevationScale: 0,
-            getHexagon: (d) => d.hex
+            getHexagon: (d) => d.hex,
+            getElevation: (d) => d.count,
+            getFillColor: (d) => [255, 255, 255, 1],
         })
     ];
 
     return (
         <div className="App">
             <DeckGL
+                onClick={({ object }: any) => setHexId(object.hex)}
                 initialViewState={newPlace}
                 controller={true}
                 layers={layers}
@@ -88,6 +89,7 @@ const HexagonMap = ({ viewPort, setViewPort, newPlace, setNewPlace, setAddress }
                     <GeolocateControl
                         trackUserLocation
                         position='bottom-right'
+                        style={{ zIndex: 10, position: 'relative' }}
                     />
                 </Map>
             </DeckGL>

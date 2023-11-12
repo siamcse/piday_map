@@ -11,9 +11,9 @@ const HomePage = () => {
   const Token = 'pk.eyJ1IjoiaGFuZ2dpIiwiYSI6ImNsb3BoZ2pwZjA4Z2Iyam83NzhiOTR1c2wifQ.44mLv--JS8miDmE-XP8d6g';
 
   useEffect(() => {
-    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${newPlace?.latitude},${newPlace?.longitude}.json?types=country&access_token=${Token}`)
+    fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${newPlace?.latitude}&lon=${newPlace?.longitude}&apiKey=aedfc55bf9914481a366f3567ec7b5eb`)
       .then(res => res.json())
-      .then(data => setCountry(data?.features[0]?.place_name))
+      .then(data => setCountry(data.features[0].properties))
   }, [viewPort, newPlace])
 
   const handleClick = (e: any) => {

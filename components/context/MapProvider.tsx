@@ -26,7 +26,7 @@ const MapProvider = ({ children }:{children:React.ReactNode}) => {
         pitch: 0,
         bearing: 0
     });
-    const [country, setCountry] = useState<string>('');
+    const [country, setCountry] = useState<object | null>({});
 
     const mapInfo = {
         viewPort,

@@ -9,9 +9,10 @@ type addressState = {
 }
 
 const LandsPage = () => {
-    const {viewPort, newPlace, setNewPlace, country } = useContext(MapContext);
+    const { viewPort, newPlace, setNewPlace, country } = useContext(MapContext);
     const router = useRouter();
     const [address, setAddress] = useState<addressState>({});
+    const [hexId, setHexId] = useState<string | number>('');
 
     // useEffect(() => {
     //     if (!country) {
@@ -19,10 +20,12 @@ const LandsPage = () => {
     //     }
     // }, [country])
 
+    console.log(country);
+
     return (
         <div className=''>
             <div className='container mx-auto pt-10'>
-                <p>首页 {country}</p>
+                <p>首页 {country.country}</p>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-5 py-4'>
                     <div className='w-full relative rounded-lg'>
                         {/* <MapComponent
@@ -30,25 +33,26 @@ const LandsPage = () => {
                             setNewPlace={setNewPlace}
                             setAddress={setAddress}
                         /> */}
-                        <HexagonMap 
-                        viewPort={viewPort}
+                        <HexagonMap
+                            viewPort={viewPort}
                             newPlace={newPlace}
                             setNewPlace={setNewPlace}
                             setAddress={setAddress}
-                        
+                            setHexId={setHexId}
+
                         />
                     </div>
                     <div className='w-full relative pt-5'>
-                        <h1 className='text-3xl font-semibold'>{country}</h1>
+                        <h1 className='text-3xl font-semibold'>{country.country}</h1>
                         <div className='mt-5 p-6 bg-[#F7F7F7] rounded-xl'>
                             <div className='grid grid-cols-2 py-5'>
                                 <div>
                                     <p className='opacity-40'>地址</p>
-                                    <p>{address ? address.text : 'Address not found'}</p>
+                                    <p>{country ? country.city : 'Address not found'}</p>
                                 </div>
                                 <div>
                                     <p className='opacity-40'>哈希值</p>
-                                    <p>{address ? address?.id?.split('.')[1] : 'Id not found'}</p>
+                                    <p>{hexId ? hexId : 'Id not found'}</p>
                                 </div>
                             </div>
                             <hr />
